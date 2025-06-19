@@ -60,6 +60,7 @@
         .Hráč { color: yellow; }
         .Neutrál { color: cyan; }
         .Neidentifikovatelné { color: gray; }
+        .Mrtvý { color: light red; }
         .details {
             display: none;
             margin-top: 10px;
@@ -82,9 +83,9 @@ const data = [
 { name: "Lehčí bandité", category: "Nepřítel", desc: "Improvizovaní bandité (nízké HP a DC).", danger: "Nízká", loot: "-", tip: "Zastrašit nebo obejít.", weapon: "AK-47" },
 { name: "Střední bandité", category: "Nepřítel", desc: "Zkušení bandité (střední HP a DC).", danger: "Střední", loot: "-", tip: "Zastrašit nebo obejít.", weapon: "AK-47" },
 { name: "Těžcí bandité", category: "Nepřítel", desc: "Nejnebezpečnější bandité (vysoké HP a DC).", danger: "Vysoká", loot: "-", tip: "Zastrašit nebo obejít.", weapon: "PKM / RPK" },
-{ name: "Leonid Karelin", category: "Hodný", desc: "Silný válečník a přítel.", danger: "Žádná", loot: "-", tip: "Věrný spojencům." },
+{ name: "Leonid Karelin", category: "Mrtvý", desc: "Silný válečník a přítel. Již zesnulý", danger: "Žádná", loot: "-", tip: "Věrný spojencům." },
 { name: "Evangelika Karelinová", category: "Hodný", desc: "Lékárnice a obchodnice.", danger: "Žádná", loot: "-", tip: "Vždy pomůže." },
-{ name: "Starý Cetkář", category: "Hodný", desc: "Moudrý vůdce vesnice.", danger: "Žádná", loot: "-", tip: "Respektovaný starší." },
+{ name: "Starý Cetkář", category: "Mrtvý", desc: "Moudrý vůdce vesnice. Již zesnulý", danger: "Žádná", loot: "-", tip: "Respektovaný starší." },
 { name: "Sofie", category: "Neutrál", desc: "Bývalá vědkyně.", danger: "Nízká", loot: "-", tip: "Zachráněná." },
 { name: "Ark", category: "Hodný", desc: "Tichý stratég a ochránce.", danger: "Žádná", loot: "-", tip: "Ochránce a taktický poradce." },
 { name: "Vlk", category: "Hráč", desc: "Samotářský stalker, bývalý Spetsnaz.", danger: "Žádná", loot: "-", tip: "<b>Výhody:</b><br>- Tichý zabiják (když nezpozorován +10 dmg)<br>- Expert na munici (při lootění +10% na loot nábojů)<br>- Expert na pasti (+10 při hodu D20 na kladení nebo likvidaci)<br>- Ostrostřelec (použití 2x za combat +5 dmg)<br><b>Slabiny:</b><br>- Poraněné oko (sniperka -5 na přesnost)<br>- Nedůvěra (hod na D20 -5 char)<br>- Strach z vody (hod na D20 jak moc velký strach)" },
@@ -93,6 +94,7 @@ const data = [
 { name: "Diana", category: "Hráč", desc: "Zdravotnice.", danger: "Žádná", loot: "-", tip: "<b>Výhody:</b><br>- Znalost anatomie (lepší léčení hod na WIS +10 použití max 2x pak cooldown 10 minut)<br>- Zkušenost se zbraněmi (+5dmg/+5 na opravu. Hod na D20 na INT)<br>- Povzbuzování týmu (použití během hádky. Hod na D20 na CHAR +6)<br><b>Slabiny:</b><br>- Klaustrofobie (hod na D20)<br>- Poškozený sluch na levé ucho<br>- Závislost na cigaretách" },
 { name: "Kolja", category: "Hráč", desc: "Vynalézavý elektromechanik.", danger: "Žádná", loot: "-", tip: "<b>Výhody:</b><br>- Inženýrská zručnost (+5 hod D20)<br>- Improvizátor výroba primitivních zbraní a vybavení<br>- Zbrojíř (oprava armoru +10 hod na D20 INT)<br><b>Slabiny:</b><br>- Zranění ramene (při souboji na blízko -4 DMG)<br>- Nedůvěra (hod na CHAR D20 -3)<br>- Izolace (při souboji ve skupině -5 DMG/- 5 přesnost při hodu D20)" },
 { name: "Orákulum", category: "Neidentifikovatelné", desc: "Záhadná entita.", danger: "???", loot: "???", tip: "Nepředvídatelná." }
+{ name: "Klinok", category: "Hráč", desc: "Záškodník.", danger: "Žádná", loot: "-", tip: "<b>Výhody:</b><br>- Instinkt přežití (+5 hod D20 Získá výhodu na Perception, Survival nebo Investigation, pokud je v tunelech, ruinách nebo uzavřených oblastech.)<br>- Výstřel v temnotě (může zjistit enemy o kterých se neví hod D20)<br>- Tichý řez (Pokud zasáhne nepřítele z úkrytu nebo překvapení (stealth):způsobí extra D20 + D6 zraněnícíl nemůže během svého kola křičet, varovat ostatní, ani spustit poplach)<br><b>Slabiny:</b><br>- Posttraumatická bdělost (Důvěřuje jen zbraním. I ve spánku je v poloze k útoku. Po probuzení z odpočinku má −2 na hody (včetně iniciativy, útoků a záchran) po 1 kolo.)<br>- Vina přeživšího (Přežil, zatímco jeho jednotka byla roztrhána mutanty u stanice Narva. Stále je slyší ve snech. Pokud je civilista nebo člen skupiny v ohrožení smrti, hází Moudrost DC 13. Při neúspěchu okamžitě reaguje impulzivně – vystavuje se riziku, i když je to nevýhodné)<br>- },
 ];
 
 const categoriesOrder = ["Bestie", "Boss", "Nepřítel", "Hodný", "Neutrál", "Hráč", "Neidentifikovatelné"];
