@@ -1,125 +1,128 @@
-
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="Metro DnD - Bestiář a Postavy">
-    <meta property="og:description" content="Kompletní bestiář Metro DnD - Bestie, Bossové, Hráči, NPC a další. Klikni a otevři!">
-    <meta property="og:type" content="website">
-    <title>Metro DnD - Bestiář (Discord Verze)</title>
-    <style>
-        body {
-            background-color: #111;
-            color: #ddd;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #222;
-            padding: 20px;
-            text-align: center;
-            font-size: 28px;
-            color: #0f0;
-        }
-        .category-header {
-            color: #0f0;
-            font-size: 20px;
-            margin: 30px 0 10px 20px;
-            text-transform: uppercase;
-            cursor: pointer;
-            border-bottom: 2px solid #0f0;
-            display: inline-block;
-        }
-        .container {
-            display: none;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            padding: 20px;
-        }
-        .container.active {
-            display: flex;
-        }
-        .card {
-            background-color: #333;
-            border-radius: 8px;
-            padding: 15px;
-            width: 300px;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
-            cursor: pointer;
-        }
-        .card h3 {
-            margin-top: 0;
-        }
-        .Bestie { color: red; }
-        .Boss { color: darkviolet; }
-        .Nepřítel { color: orange; }
-        .Hodný { color: lightgreen; }
-        .Hráč { color: yellow; }
-        .Neutrál { color: cyan; }
-        .Neidentifikovatelné { color: gray; }
-        .Mrtvý { color: light red; }
-        .details {
-            display: none;
-            margin-top: 10px;
-        }
-        .show .details {
-            display: block;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="Metro DnD - Bestiář a Postavy">
+  <meta property="og:description" content="Kompletní bestiář Metro DnD - Bestie, Bossové, Hráči, NPC a další. Klikni a otevři!">
+  <meta property="og:type" content="website">
+  <title>Metro DnD - Bestiář (Discord Verze)</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #ddd;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #222;
+      padding: 20px;
+      text-align: center;
+      font-size: 28px;
+      color: #0f0;
+    }
+    .category-header {
+      color: #0f0;
+      font-size: 20px;
+      margin: 30px 0 10px 20px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-bottom: 2px solid #0f0;
+      display: inline-block;
+    }
+    .container {
+      display: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+    .container.active {
+      display: flex;
+    }
+    .card {
+      background-color: #333;
+      border-radius: 8px;
+      padding: 15px;
+      width: 300px;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+      cursor: pointer;
+    }
+    .card h3 {
+      margin-top: 0;
+    }
+    .Bestie { color: red; }
+    .Boss { color: darkviolet; }
+    .Nepřítel { color: orange; }
+    .Hodný { color: lightgreen; }
+    .Hráč { color: yellow; }
+    .Neutrál { color: cyan; }
+    .Neidentifikovatelné { color: gray; }
+    .Mrtvý { color: lightcoral; }
+    .details {
+      display: none;
+      margin-top: 10px;
+    }
+    .show .details {
+      display: block;
+    }
+  </style>
 </head>
 <body>
-    <header>Metro DnD - Bestiář a Postavy (Discord Verze)</header>
 
-    <p style="text-align:center;color:#aaa;">Klikni na kategorii a zobraz postavy / bestie. (Verze připravená pro Discord!)</p>
+  <header>Metro DnD - Bestiář a Postavy </header>
+  <p style="text-align:center;color:#aaa;">
+    Klikni na kategorii a zobraz postavy / bestie. 
+  </p>
 
-    <script>
-const data = [
-{ name: "Mutovaní psi", category: "Bestie", desc: "Divocí, zuřiví a rychlí.", danger: "Nízká až střední", loot: "Kosti, maso, kůže", tip: "Odvést jídlem nebo zabít na dálku." },
-{ name: "Medvěd", category: "Boss", desc: "Masivní mutovaný medvěd.", danger: "Extrémní", loot: "Maso, trofej", tip: "Těžké zbraně a taktika." },
-{ name: "Karim", category: "Boss", desc: "Fanatický vůdce banditů.", danger: "Vysoká", loot: "-", tip: "Spolupráce klíčem", weapon: "AK-47" },
-{ name: "Lehčí bandité", category: "Nepřítel", desc: "Improvizovaní bandité (nízké HP a DC).", danger: "Nízká", loot: "-", tip: "Zastrašit nebo obejít.", weapon: "AK-47" },
-{ name: "Střední bandité", category: "Nepřítel", desc: "Zkušení bandité (střední HP a DC).", danger: "Střední", loot: "-", tip: "Zastrašit nebo obejít.", weapon: "AK-47" },
-{ name: "Těžcí bandité", category: "Nepřítel", desc: "Nejnebezpečnější bandité (vysoké HP a DC).", danger: "Vysoká", loot: "-", tip: "Zastrašit nebo obejít.", weapon: "PKM / RPK" },
-{ name: "Leonid Karelin", category: "Mrtvý", desc: "Silný válečník a přítel. Již zesnulý", danger: "Žádná", loot: "-", tip: "Věrný spojencům." },
-{ name: "Evangelika Karelinová", category: "Hodný", desc: "Lékárnice a obchodnice.", danger: "Žádná", loot: "-", tip: "Vždy pomůže." },
-{ name: "Starý Cetkář", category: "Mrtvý", desc: "Moudrý vůdce vesnice. Již zesnulý", danger: "Žádná", loot: "-", tip: "Respektovaný starší." },
-{ name: "Sofie", category: "Neutrál", desc: "Bývalá vědkyně.", danger: "Nízká", loot: "-", tip: "Zachráněná." },
-{ name: "Ark", category: "Hodný", desc: "Tichý stratég a ochránce.", danger: "Žádná", loot: "-", tip: "Ochránce a taktický poradce." },
-{ name: "Vlk", category: "Hráč", desc: "Samotářský stalker, bývalý Spetsnaz.", danger: "Žádná", loot: "-", tip: "<b>Výhody:</b><br>- Tichý zabiják (když nezpozorován +10 dmg)<br>- Expert na munici (při lootění +10% na loot nábojů)<br>- Expert na pasti (+10 při hodu D20 na kladení nebo likvidaci)<br>- Ostrostřelec (použití 2x za combat +5 dmg)<br><b>Slabiny:</b><br>- Poraněné oko (sniperka -5 na přesnost)<br>- Nedůvěra (hod na D20 -5 char)<br>- Strach z vody (hod na D20 jak moc velký strach)" },
-{ name: "Viking", category: "Hráč", desc: "Lovec a přeživší.", danger: "Žádná", loot: "-", tip: "<b>Výhody:</b><br>- Nezdolná vůle (+2 DC všem v partě)<br><b>Slabiny:</b><br>- Nenávist vůči banditům (hod na D20)<br>- Strach z hluboké vody (hod na D20 jak moc velký strach)" },
-{ name: "Jurij", category: "Hráč", desc: "Kuchař a znalec přírody.", danger: "Žádná", loot: "-", tip: "<b>Výhody:</b><br>- Znalec rostlin a bylin (hod na WIS +10)<br><b>Slabiny:</b><br>- Při těle nevlez se všude<br>- Strach z pavouků (hod na D20)<br>- Strach z tmy (hod na D20)<br>- Závislost na cigaretách" },
-{ name: "Diana", category: "Hráč", desc: "Zdravotnice.", danger: "Žádná", loot: "-", tip: "<b>Výhody:</b><br>- Znalost anatomie (lepší léčení hod na WIS +10 použití max 2x pak cooldown 10 minut)<br>- Zkušenost se zbraněmi (+5dmg/+5 na opravu. Hod na D20 na INT)<br>- Povzbuzování týmu (použití během hádky. Hod na D20 na CHAR +6)<br><b>Slabiny:</b><br>- Klaustrofobie (hod na D20)<br>- Poškozený sluch na levé ucho<br>- Závislost na cigaretách" },
-{ name: "Kolja", category: "Hráč", desc: "Vynalézavý elektromechanik.", danger: "Žádná", loot: "-", tip: "<b>Výhody:</b><br>- Inženýrská zručnost (+5 hod D20)<br>- Improvizátor výroba primitivních zbraní a vybavení<br>- Zbrojíř (oprava armoru +10 hod na D20 INT)<br><b>Slabiny:</b><br>- Zranění ramene (při souboji na blízko -4 DMG)<br>- Nedůvěra (hod na CHAR D20 -3)<br>- Izolace (při souboji ve skupině -5 DMG/- 5 přesnost při hodu D20)" },
-{ name: "Orákulum", category: "Neidentifikovatelné", desc: "Záhadná entita.", danger: "???", loot: "???", tip: "Nepředvídatelná." }
-{ name: "Klinok", category: "Hráč", desc: "Záškodník.", danger: "Žádná", loot: "-", tip: "<b>Výhody:</b><br>- Instinkt přežití (+5 hod D20 Získá výhodu na Perception, Survival nebo Investigation, pokud je v tunelech, ruinách nebo uzavřených oblastech.)<br>- Výstřel v temnotě (může zjistit enemy o kterých se neví hod D20)<br>- Tichý řez (Pokud zasáhne nepřítele z úkrytu nebo překvapení (stealth):způsobí extra D20 + D6 zraněnícíl nemůže během svého kola křičet, varovat ostatní, ani spustit poplach)<br><b>Slabiny:</b><br>- Posttraumatická bdělost (Důvěřuje jen zbraním. I ve spánku je v poloze k útoku. Po probuzení z odpočinku má −2 na hody (včetně iniciativy, útoků a záchran) po 1 kolo.)<br>- Vina přeživšího (Přežil, zatímco jeho jednotka byla roztrhána mutanty u stanice Narva. Stále je slyší ve snech. Pokud je civilista nebo člen skupiny v ohrožení smrti, hází Moudrost DC 13. Při neúspěchu okamžitě reaguje impulzivně – vystavuje se riziku, i když je to nevýhodné)<br>- },
-];
+  <script>
+    const data = [
+      { name: "Mutovaní psi", category: "Bestie", desc: "Divocí, zuřiví a rychlí.", danger: "Nízká až střední", loot: "Kosti, maso, kůže", tip: "Odvést jídlem nebo zabít na dálku." },
+      { name: "Medvěd", category: "Boss", desc: "Masivní mutovaný medvěd.", danger: "Extrémní", loot: "Maso, trofej", tip: "Těžké zbraně a taktika." },
+      { name: "Karim", category: "Boss", desc: "Fanatický vůdce banditů.", danger: "Vysoká", loot: "-", tip: "Spolupráce klíčem", weapon: "AK-47" },
+      { name: "Lehčí bandité", category: "Nepřítel", desc: "Improvizovaní bandité (nízké HP a DC).", danger: "Nízká", loot: "-", tip: "Zastrašit nebo obejít.", weapon: "AK-47" },
+      { name: "Střední bandité", category: "Nepřítel", desc: "Zkušení bandité (střední HP a DC).", danger: "Střední", loot: "-", tip: "Zastrašit nebo obejít.", weapon: "AK-47" },
+      { name: "Těžcí bandité", category: "Nepřítel", desc: "Nejnebezpečnější bandité (vysoké HP a DC).", danger: "Vysoká", loot: "-", tip: "Zastrašit nebo obejít.", weapon: "PKM / RPK" },
+      { name: "Leonid Karelin", category: "Mrtvý", desc: "Silný válečník a přítel. Již zesnulý", danger: "Žádná", loot: "-", tip: "Věrný spojencům." },
+      { name: "Evangelika Karelinová", category: "Hodný", desc: "Lékárnice a obchodnice.", danger: "Žádná", loot: "-", tip: "Vždy pomůže." },
+      { name: "Starý Cetkář", category: "Mrtvý", desc: "Moudrý vůdce vesnice. Již zesnulý", danger: "Žádná", loot: "-", tip: "Respektovaný starší." },
+      { name: "Sofie", category: "Neutrál", desc: "Bývalá vědkyně.", danger: "Nízká", loot: "-", tip: "Zachráněná." },
+      { name: "Ark", category: "Hodný", desc: "Tichý stratég a ochránce.", danger: "Žádná", loot: "-", tip: "Ochránce a taktický poradce." },
+      { name: "Vlk", category: "Hráč", desc: "Samotářský stalker, bývalý Spetsnaz.", danger: "Žádná", loot: "-", tip: "<b>Výhody:</b><br>- Tichý zabiják (když nezpozorován +10 dmg)<br>- Expert na munici (při lootění +10% na loot nábojů)<br>- Expert na pasti (+10 při hodu D20 na kladení nebo likvidaci)<br>- Ostrostřelec (použití 2x za combat +5 dmg)<br><b>Slabiny:</b><br>- Poraněné oko (sniperka -5 na přesnost)<br>- Nedůvěra (hod na D20 -5 char)<br>- Strach z vody (hod na D20 jak moc velký strach)" },
+      { name: "Viking", category: "Hráč", desc: "Lovec a přeživší.", danger: "Žádná", loot: "-", tip: "<b>Výhody:</b><br>- Nezdolná vůle (+2 DC všem v partě)<br><b>Slabiny:</b><br>- Nenávist vůči banditům (hod na D20)<br>- Strach z hluboké vody (hod na D20 jak moc velký strach)" },
+      { name: "Jurij", category: "Hráč", desc: "Kuchař a znalec přírody.", danger: "Žádná", loot: "-", tip: "<b>Výhody:</b><br>- Znalec rostlin a bylin (hod na WIS +10)<br><b>Slabiny:</b><br>- Při těle nevlez se všude<br>- Strach z pavouků (hod na D20)<br>- Strach z tmy (hod na D20)<br>- Závislost na cigaretách" },
+      { name: "Diana", category: "Hráč", desc: "Zdravotnice.", danger: "Žádná", loot: "-", tip: "<b>Výhody:</b><br>- Znalost anatomie (lepší léčení hod na WIS +10 použití max 2x pak cooldown 10 minut)<br>- Zkušenost se zbraněmi (+5dmg/+5 na opravu. Hod na D20 na INT)<br>- Povzbuzování týmu (použití během hádky. Hod na D20 na CHAR +6)<br><b>Slabiny:</b><br>- Klaustrofobie (hod na D20)<br>- Poškozený sluch na levé ucho<br>- Závislost na cigaretách" },
+      { name: "Kolja", category: "Hráč", desc: "Vynalézavý elektromechanik.", danger: "Žádná", loot: "-", tip: "<b>Výhody:</b><br>- Inženýrská zručnost (+5 hod D20)<br>- Improvizátor výroba primitivních zbraní a vybavení<br>- Zbrojíř (oprava armoru +10 hod na D20 INT)<br><b>Slabiny:</b><br>- Zranění ramene (při souboji na blízko -4 DMG)<br>- Nedůvěra (hod na CHAR D20 -3)<br>- Izolace (při souboji ve skupině -5 DMG/- 5 přesnost při hodu D20)" },
+      { name: "Orákulum", category: "Neidentifikovatelné", desc: "Záhadná entita.", danger: "???", loot: "???", tip: "Nepředvídatelná." },
+      { name: "Klinok", category: "Hráč", desc: "Záškodník.", danger: "Žádná", loot: "-", tip: "<b>Výhody:</b><br>- Instinkt přežití (+5 hod D20 Získá výhodu na Perception, Survival nebo Investigation, pokud je v tunelech, ruinách nebo uzavřených oblastech.)<br>- Výstřel v temnotě (může zjistit enemy o kterých se neví hod D20)<br>- Tichý řez (Pokud zasáhne nepřítele z úkrytu nebo překvapení (stealth):způsobí extra D20 + D6 zranění, cíl nemůže během svého kola křičet, varovat ostatní, ani spustit poplach)<br><b>Slabiny:</b><br>- Posttraumatická bdělost (Důvěřuje jen zbraním. I ve spánku je v poloze k útoku. Po probuzení z odpočinku má −2 na hody (včetně iniciativy, útoků a záchran) po 1 kolo.)<br>- Vina přeživšího (Přežil, zatímco jeho jednotka byla roztrhána mutanty u stanice Narva. Stále je slyší ve snech. Pokud je civilista nebo člen skupiny v ohrožení smrti, hází Moudrost DC 13. Při neúspěchu okamžitě reaguje impulzivně – vystavuje se riziku, i když je to nevýhodné)" }
+    ];
 
-const categoriesOrder = ["Bestie", "Boss", "Nepřítel", "Hodný", "Neutrál", "Hráč", "Neidentifikovatelné"];
+    const categoriesOrder = ["Bestie", "Boss", "Nepřítel", "Hodný", "Neutrál", "Hráč", "Neidentifikovatelné", "Mrtvý"];
 
-categoriesOrder.forEach(cat => {
-    document.body.innerHTML += `<div class='category-header' onclick='toggleCategory("${cat}")'>▶️ ${cat}</div><div class='container' id='${cat}'></div>`;
-});
+    categoriesOrder.forEach(cat => {
+      document.body.innerHTML += `<div class='category-header' onclick='toggleCategory("${cat}")'>▶️ ${cat}</div><div class='container' id='${cat}'></div>`;
+    });
 
-data.forEach(entry => {
-    const container = document.getElementById(entry.category);
-    const card = document.createElement('div');
-    card.className = 'card ' + entry.category;
-    card.innerHTML = `<h3>${entry.name}</h3>
-    <strong>Kategorie:</strong> ${entry.category}<br>
-    <strong>Nebezpečnost:</strong> ${entry.danger}<br>
-    <strong>Popis:</strong> ${entry.desc}<br>
-    <strong>Tip:</strong><br> ${entry.tip}`;
-    card.addEventListener('click', () => card.classList.toggle('show'));
-    container.appendChild(card);
-});
+    data.forEach(entry => {
+      const container = document.getElementById(entry.category);
+      if (container) {
+        const card = document.createElement('div');
+        card.className = 'card ' + entry.category;
+        card.innerHTML = `<h3>${entry.name}</h3>
+          <strong>Kategorie:</strong> ${entry.category}<br>
+          <strong>Nebezpečnost:</strong> ${entry.danger}<br>
+          <strong>Popis:</strong> ${entry.desc}<br>
+          <strong>Tip:</strong><br> ${entry.tip}`;
+        card.addEventListener('click', () => card.classList.toggle('show'));
+        container.appendChild(card);
+      }
+    });
 
-function toggleCategory(cat) {
-    const cont = document.getElementById(cat);
-    cont.classList.toggle('active');
-}
-    </script>
+    function toggleCategory(cat) {
+      const cont = document.getElementById(cat);
+      cont.classList.toggle('active');
+    }
+  </script>
 </body>
 </html>
